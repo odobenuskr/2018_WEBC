@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>Personal Scheduler</title>
+    <link rel="stylesheet" href="src/calendar.css">
+    <style type="text/css">
+        html {
+            font: 500 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #333;
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul,
+        ol,
+        li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #demo {
+            width: 600px;
+            margin: 30px auto;
+        }
+
+        #one {
+              margin-left: auto;
+              margin-right: auto;
+        }
+
+        .center {
+              width: 400px;
+              margin-left: auto;
+              margin-right: auto;
+        }
+
+        #dialog {
+          width: 300px;
+              margin-left: auto;
+              margin-right: auto;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        input {
+            margin: 10px 0;
+            height: 28px;
+            width: 200px;
+            padding: 0 6px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+    </style>
+    <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.10.3.custom.css" />
+    <link href="/css/ui.jqgrid.css" rel="stylesheet" />
+    <style>
+        body { font-size: 62.5% }
+        h1 { text-align:center; }
+        input[type="text"], label {
+            margin-bottom: 12px; padding: .4em;
+            width: 95%;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/js/i18n/grid.locale-kr.js"></script>
+    <script src="/js/jquery.jqGrid.src.js"></script>
+    <script src="/plugins/grid.postext.js"></script>
+    <script>
+
+    var $ca;
+    var myid, mydate, mydata, mylocation, myphone, mytime;
+
+        $(document).ready(function () {
+            // jQuery UI Dialog 플러그인
+
+            var data;
+            var init = false;
+
+            $('#dialog').dialog({
+                open: function () {
+
+                },
+                autoOpen: false,
+                buttons: [
+                 { text  : '추가/수정',
+                   id: 'add_edit',
+                   click : function() {
+                            if(myid==null)
+                              jQuery("#grid").jqGrid('editGridRow',"new",{height:350, beforeShowForm: function(formid) {
+                                $('#FrmGrid_grid input#value').val("");
+                                $('#FrmGrid_grid input#meettime').val("");
+                                $('#FrmGrid_grid input#location').val("");
+                                $('#FrmGrid_grid input#phone').val("");
+                                $('#FrmGrid_grid input#date').val(mydate);
+                              }, reloadAfterSubmit:true});
+                            else
+                              $("#grid").jqGrid('editGridRow',myid,{height:350, beforeShowForm: function(formid) {
+                                $('#FrmGrid_grid input#value').val(mydata);
+                                $('#FrmGrid_grid input#date').val(mydate);
+                                $('#FrmGrid_grid input#meettime').val(mytime);
+                                $('#FrmGrid_grid input#location').val(mylocation);
+                                $('#FrmGrid_grid input#phone').val(myphone);
+                              },reloadAfterSubmit:true});
+                            $(this).dialog('close');
+                         },
+                   class : 'custom-class'
+                 },
+                 { text: '삭제',
+                   id: 'delete',
+                   click: function () {
+                     if(myid!=null)
+                        jQuery("#grid").jqGrid('delGridRow',myid,{reloadAfterSubmit:true});
+                     $('#dialog').dialog('close');
+                   }
+                 },
+                 { text: '검색',
+                   id: 'search',
+                   click: function () {
+                     jQuery("#grid").jqGrid('searchGrid',
+                       {sopt:['cn','bw','eq','ne','lt','gt','ew']}
+                     );
+                     $('#dialog').dialog('close');
+                    }
+                 },
+                 { text: '재로딩',
+                   id: 'search',
+                   click: function () {
+                     jQuery("#grid").setGridParam({ search: false });
+                     jQuery("#grid").trigger('reloadGrid');
+                     $('#dialog').dialog('close');
+                    }
+                 },
+                 { text: '취소',
+                   id: 'cancel',
+                   click: function () {
+                        $('#event-name').val('');
+                        $('#event-date').val('');
+                        $('#dialog').dialog('close');
+                    }
+                 }
+              ],
+                modal: true
+            });
+
+            // jQuery UI DatePicker 플러그인
+            $('#event-date').datepicker({
+                dateFormat: 'yy/mm/dd',
+                numberOfMonths: 3
+            });
+
+            var customDialog = {
+                onclickSubmit: function (params) {
+                    var selectedRow = $('#grid').getGridParam('selrow');
+                    rowData = $('#grid').getRowData(selectedRow);
+                    return { id: rowData.id };
+                }
+            };
+
+            function myelem (value, options) {
+              var el = document.createElement("input");
+              el.type="text";
+              el.id='date';
+              el.value = value;
+              $(el).datepicker({
+                  dateFormat: 'yy/mm/dd',
+                  numberOfMonths: 3
+              });
+              return el;
+            }
+
+            function myvalue(elem, operation, value) {
+                if(operation === 'get') {
+                   return $(elem).val();
+                } else if(operation === 'set') {
+                   $('input',elem).val(value);
+                }
+            }
+
+            $('#grid').jqGrid({
+                url: '/schedule/get',
+                editurl: '/schedule/edit',
+                datatype: 'json',
+                pager: '#pager',
+                caption: '스케쥴 테이블',
+                height: '100%',
+                rowNum: 1000,
+                rowList: [10, 20, 30, 1000],
+                colNames: ['id', '일정이름', '시간', '주소', '연락처', '날짜'],
+                colModel: [
+                    { name: 'id', index: 'id', width: 30, search: false },
+                    { name: 'value', index: 'value', width: 150, editable: true, edittype: 'text' },
+                    { name: 'meettime', index: 'meettime', width: 60, editable: true, edittype: 'text' },
+                    { name: 'location', index: 'location', width: 150, editable: true, edittype: 'text' },
+                    { name: 'phone', index: 'phone', width: 150, editable: true, edittype: 'text' },
+                    { name: 'date', index: 'date', width: 90, editable: true, edittype:'custom', editoptions:{custom_element: myelem, custom_value:myvalue} }
+                ],
+                loadComplete: function(){
+              		var ret;
+                  data = $('#grid').getRowData();
+                  if(init) {
+                    $ca.calendar('syncSchedule', data);
+                  }
+                  else {
+                    renderCalendar(data);
+                    init = true;
+                  }
+              	}
+            }).navGrid('#pager', {
+                search: true,
+                edit: true,
+                add: true,
+                del: true
+            }, customDialog, {}, customDialog);
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <div id="demo">
+        <h1>내 스케줄 관리</h1>
+        <div id="one"></div>
+    </div>
+
+    <div id="dialog" title="Schedule Management">
+        <h1>원하는 기능을 선택하세요.</h1>
+    </div>
+
+  <div class="center">
+    <table id="grid"></table>
+    <div id="pager"></div>
+  </div>
+
+    <script src="src/calendar.js"></script>
+    <script>
+    function renderCalendar(data) {
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var date = now.getDate();
+        // inline
+            $ca = $('#one').calendar({
+            // view: 'month',
+            width: 320,
+            height: 320,
+            // startWeek: 0,
+            // selectedRang: [new Date(), null],
+            data: data,
+            monthArray: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            date: new Date(), // new Date(2018, 4, 20),
+            onSelected: function (view, date, data, id) {
+                console.log('view:' + view)
+                console.log('date:' + date)
+                console.log('data:' + data);
+//                console.log('data:' + (data.value || '없음'));
+
+                $('#event-name').val((data) ? data.value : '');
+                $('#event-date').val(date);
+
+                mydate = date;
+                mydata = (data) ? data.value : '';
+                mylocation = (data) ? data.location : '';
+                mytime = (data) ? data.meettime : '';
+                myphone = (data) ? data.phone : '';
+                myid = id;
+                $('#dialog').dialog('open');
+                return null;
+            },
+            viewChange: function (view, y, m) {
+                console.log(view, y, m)
+
+            }
+        });
+      }
+
+    </script>
+</body>
+</html>

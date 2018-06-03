@@ -1,0 +1,61 @@
+﻿body {
+    width: 200px;
+    margin: 200px auto;
+    perspective: 400;
+}
+
+section {
+    width: 200px; height: 200px;
+    position: relative;
+    animation: rint 10s linear 0s infinite;
+
+    transform-style: preserve-3d;
+}
+
+@keyframes rint {
+    from {
+        transform: rotateX(  0deg) rotateY(  0deg) rotateZ(  0deg);
+    }
+
+    to {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+div {
+    width: 200px; height: 200px;
+    position: absolute; left: 0; top: 0;
+    opacity: 1;
+}
+
+div:nth-child(1) {
+    transform: rotateY(  0deg) translate3d(0px, 0px, 100px);
+    background-image: url("cat.png");
+    opacity: 1;
+
+}
+div:nth-child(2) {
+    transform: rotateY( 90deg) translate3d(0px, 0px, 100px);
+    background-image: url("dog.png");
+    opacity: 1;
+}
+div:nth-child(3) {
+    transform: rotateY(180deg) translate3d(0px, 0px, 100px);
+    background-image: url("nugul.png");
+    opacity: 1;
+}
+div:nth-child(4) {
+    transform: rotateY(270deg) translate3d(0px, 0px, 100px);
+    background-image: url("nyang.png");
+    opacity: 1;
+}
+div:nth-child(5) {
+    transform: rotateX( 90deg) translate3d(0px, 0px, 100px);
+    background-image: url("peng.png");
+    opacity: 1;
+}
+div:nth-child(6) {
+    transform: rotateX(270deg) translate3d(0px, 0px, 100px);
+    background-image: url("pig.png");
+    opacity: 1;
+}

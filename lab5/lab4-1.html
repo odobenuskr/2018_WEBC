@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <title>웹클라이언트컴퓨팅(Lab5)</title>
+    <!-- 본문에서는 다루지 않은 코드입니다. 부록 A에서 살펴보는 플러그인입니다. -->
+    <!-- 구 버전의 인터넷 익스플로러에서 HTML5 태그를 인식하게 합니다. -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- 초기화 -->
+    <link href="http://fonts.googleapis.com/css?family=Henny+Penny" rel="stylesheet" type="text/css" />
+    <!-- 초기화 -->
+    <style>
+        * { margin: 0; padding: 0; }
+        body { font-family: 'Times New Roman', serif; }
+        li { list-style: none; }
+        a { text-decoration: none; }
+        img { border: 0; }
+    </style>
+    <!-- 헤더 -->
+    <style>
+        #main_header {
+            /* 중앙 정렬*/
+            width: 960px; margin: 0 auto;
+
+            /* 절대 좌표 */
+            height: 160px;
+            position: relative;
+            background-color: #DFE5BB;
+        }
+        #main_header > #title {
+            position: absolute;
+            left: 20px; top: 30px;
+            background-color: #7E2A54;
+            color: #DFE5BB;
+        }
+        #main_header > #main_gnb {
+            position: absolute;
+            right: 0; top: 0;
+        }
+        #main_header > #main_lnb {
+            position: absolute;
+            right: 0; bottom: 10px;
+            background-color: #F89B36;
+            font-family: sans-serif;
+        }
+    </style>
+    <!-- 타이틀 -->
+    <style>
+        #title {
+            font-family: 'Henny Penny', cursive;
+        }
+    </style>
+    <!-- 메뉴(1) -->
+    <style>
+        #main_gnb > ul { overflow: hidden; }
+        #main_gnb > ul > li { float: left; }
+        #main_gnb > ul > li > a {
+            display: block;
+            padding: 2px 10px;
+            border: 1px solid black;
+            background-color: #A1CDC3;
+        }
+        #main_gnb > ul > li > a:hover {
+            background: black;
+            color: white;
+        }
+        #main_gnb > ul > li:first-child > a { border-radius: 10px 0 0 10px; }
+        #main_gnb > ul > li:last-child > a  { border-radius: 0 10px 10px 0; }
+    </style>
+    <!-- 메뉴(2) -->
+    <style>
+        #main_lnb > ul { overflow: hidden; }
+        #main_lnb > ul > li { float: left; }
+        #main_lnb > ul > li > a {
+            display: block;
+            padding: 10px 20px;
+            border: 1px solid black;
+        }
+        #main_lnb > ul > li > a:hover {
+            background: black;
+            color: white;
+        }
+        #main_lnb > ul > li:first-child > a { border-radius: 10px 0 0 10px; }
+        #main_lnb > ul > li:last-child > a  { border-radius: 0 10px 10px 0; }
+    </style>
+    <!-- 콘텐츠 -->
+    <style>
+        #content {
+            /* 중앙 정렬 */
+            width: 960px; margin: 0 auto;
+
+            /* 수평 레이아웃 구성 */
+            overflow: hidden;
+        }
+        #content > #main_section {
+            width: 750px;
+            float: left;
+        }
+        #content > #main_aside {
+            width: 200px;
+            float: right;
+        }
+    </style>
+    <!-- 본문 -->
+    <style>
+        #main_section > article.main_article {
+            margin-bottom: 10px;
+            padding: 20px;
+            border: 1px solid black;
+            color: white;
+            background-color: #40502E;
+        }
+
+    </style>
+    <!-- 사이드 -->
+    <style>
+        /* 첫 번째 탭 */
+        .aside-input:nth-of-type(1) { display: none; }
+        .aside-input:nth-of-type(1) ~ div:nth-of-type(1) { display: none; }
+        .aside-input:nth-of-type(1):checked ~ div:nth-of-type(1) { display: block; }
+
+        /* 두 번째 탭 */
+        .aside-input:nth-of-type(2) { display: none; }
+        .aside-input:nth-of-type(2) ~ div:nth-of-type(2) { display: none; }
+        .aside-input:nth-of-type(2):checked ~ div:nth-of-type(2) { display: block; }
+
+        /* 세 번째 탭 */
+        .aside-input:nth-of-type(3) { display: none; }
+        .aside-input:nth-of-type(3) ~ div:nth-of-type(3) { display: none; }
+        .aside-input:nth-of-type(3):checked ~ div:nth-of-type(3) { display: block; }
+
+        /* 탭 모양 구성 */
+        section.buttons { overflow: hidden; }
+        section.buttons > label {
+            /* 수평 정렬 */
+            display: block; float: left;
+
+            /* 크기 및 글자 위치 지정*/
+            width: 66.66666px; height: 30px;
+            line-height: 30px;
+            text-align: center;
+
+            /* 테두리 지정 */
+            box-sizing: border-box;
+            border: 1px solid black;
+
+            /* 색상 지정*/
+            background: #274A4D;
+            color: white;
+        }
+        input:nth-of-type(1):checked ~ section.buttons >  label:nth-of-type(1) {
+            background: #FB4539;
+            color: yellow;
+        }
+        input:nth-of-type(2):checked ~ section.buttons >  label:nth-of-type(2) {
+            background: #FB4539;
+            color: yellow;
+        }
+        input:nth-of-type(3):checked ~ section.buttons >  label:nth-of-type(3) {
+            background: #FB4539;
+            color: yellow;
+        }
+    </style>
+    <!-- 목록 -->
+    <style>
+        .item {
+            overflow: hidden;
+            padding: 10px;
+            border: 1px solid black;
+            border-top: none;
+            background-color: #F9CCB2;
+        }
+        .thumbnail {
+            float: left;
+        }
+        .description {
+            float: left;
+            margin-left: 10px;
+            color: red;
+        }
+        .description > strong {
+            display: block;
+            width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item:hover > a > .description {
+          color: blue;
+        }
+
+        .item:active > a > .description {
+          color: yellow;
+        }
+
+
+    </style>
+    <!-- 푸터 -->
+    <style>
+        #main_footer {
+            /* 중앙 정렬 */
+            width: 960px; margin: 0 auto;
+            margin-bottom: 10px;
+
+            /* 테두리 */
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid black;
+
+            /* 글자 정렬 */
+            text-align: center;
+            color: white;
+            background-color: #ED908C;
+        }
+    </style>
+</head>
+<body>
+    <header id="main_header">
+        <div id="title">
+            <h1>Rint Development</h1>
+            <h2>HTML5 + CSS3 Basic</h2>
+        </div>
+        <nav id="main_gnb">
+            <ul>
+                <li><a href="#">Web</a></li>
+                <li><a href="#">Mobile</a></li>
+                <li><a href="#">Game</a></li>
+                <li><a href="#">Simulation</a></li>
+                <li><a href="#">Data</a></li>
+            </ul>
+        </nav>
+        <nav id="main_lnb">
+            <ul>
+              <li><a href="lab4-1.html">테이블</a></li>
+              <li><a href="lab4-2.html">주민번호 검사</a></li>
+              <li><a href="lab4-3.html">비디오 재생</a></li>
+              <li><a href="lab4-5.html">회전 큐브</a></li>
+              <li><a href="WebPageLayout.html">처음으로</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="content">
+        <section id="main_section">
+              <table border="1">
+                  <tr>
+                      <th colspan="5">포트폴리오(이성재)</th>
+                  </tr>
+                  <tr>
+                  	<th rowspan="5">교육</th>
+                    <tr>
+                      <td>냉천초등학교</td>
+                      <td><img src="nc.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.ng1000.es.kr/">냉천초등학교 홈페이지</a></td>
+                      <td>일산 정발산동에 위치한 냉천초등학교</td>
+                    </tr>
+                    <tr>
+                      <td>정발중학교</td>
+                      <td><img src="js.png" alt="kmu" width="100"/></td>
+                      <td><a href="http://www.jeongbal.ms.kr/">정발중학교 홈페이지</a></td>
+                      <td>일산 정발산동에 위치한 정발중학교</td>
+                    </tr>
+                    <tr>
+                      <td>풍동고등학교</td>
+                      <td><img src="pd.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.pungdong.hs.kr/wah/main/index.htm">풍동고등학교 홈페이지</a></td>
+                      <td>일산 풍동에 위치한 정발중학교</td>
+                    </tr>
+                    <tr>
+                      <td>국민대학교</td>
+                      <td><img src="kmu.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.kookmin.ac.kr">국민대학교 홈페이지</a></td>
+                      <td><a href="http://cs.kookmin.ac.kr/">소프트웨어중심대학 홈페이지</a></td>
+                    </tr>
+                  </tr>
+                  <tr>
+                  	<th rowspan="4">취미</th>
+                    <tr>
+                      <td>영화보기</td>
+                      <td><img src="mv.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.watcha.net">영화 리뷰 왓챠 홈페이지</a></td>
+                      <td>영화 리뷰사이트 왓챠를 즐겨합니다.</td>
+                    </tr>
+                    <tr>
+                      <td>책읽기</td>
+                      <td><img src="book.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.aladin.com">서점 홈페이지</a></td>
+                      <td>주로 컴퓨터 / 수학 관련 서적을 읽습니다.</td>
+                    </tr>
+                    <tr>
+                      <td>음악 듣기</td>
+                      <td><img src="ms.jpg" alt="kmu" width="200"/></td>
+                      <td><a href="http://www.melon.co.kr">인디밴드 음악 듣기.</a></td>
+                      <td>Indie 밴드의 음악을 즐겨 듣습니다.</td>
+                    </tr>
+
+              </table>
+        </section>
+
+
+        <aside id="main_aside">
+            <input class="aside-input" id="first" type="radio" name="tab" checked="checked" />
+            <input class="aside-input" id="second" type="radio" name="tab" />
+            <input class="aside-input" id="third" type="radio" name="tab" />
+
+            <section class="buttons">
+                <label for="first">First</label>
+                <label for="second">Second</label>
+                <label for="third">Third</label>
+            </section>
+
+            <div class="tab_item">
+                <ul>
+                    <li class="item" ><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>HTML5 Canvas</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>HTML5 Audio</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>HTML5 Video</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>HTML5 Semantic Web</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+            <div class="tab_item">
+                <ul>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>CSS3 Transition</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>CSS3 Animation</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>CSS3 Border</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>CSS3 Box</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+            <div class="tab_item">
+                <ul>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>세 번째 박스</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>내용입니다</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>그렇읍니다</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                    <li class="item"><a href="#">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/45x45" />
+                        </div>
+                        <div class="description">
+                            <strong>ㅎㅎ..</strong><p>2012-03-15</p>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    <footer id="main_footer">
+        <h3>HTML5 + CSS3 Basic</h3>
+        <address>Website Layout Basic</address>
+    </footer>
+</body>
+</html>

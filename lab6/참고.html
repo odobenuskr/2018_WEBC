@@ -1,0 +1,43 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+​<label> 제목: </label> <input type="text" id="input" size='40'> <br>
+<label> 내용: </label> <textarea id="content" cols='40' rows='10'> </textarea> <br>
+<label> 결과: </label> <textarea id="output" cols='40' rows='10'> </textarea> <br>
+<button onclick="input();">입력(제목/내용창->temp1/2변수)</button>
+<button onclick="output();">출력하기(temp1/2변수->결과창)</button> <br>
+<button onclick="output2();">출력하기(temp1/2변수->body안에 div태그로 출력)</button>
+
+
+<!-- 아래부터 자바스크립트 -->
+<script type="text/javascript">
+var temp1, temp2;
+
+function input(){
+var input = document.getElementById("input").value;
+temp1 = input;
+input = document.getElementById("content").value;
+temp2 = input;
+}
+
+function output(){
+  document.getElementById("output").value = "제목: " + temp1 + "\n";
+  document.getElementById("output").value += "내용: " + temp2 + "\n";
+}
+
+function output2(){
+var article = "<article> <div class='article-header'>";
+article += "<h1 class='article-title'>" + temp1 + "</h1>";
+article += "<p>" +  temp2 + "</p> </div> </article>";
+document.body.innerHTML += article;
+}
+
+</script>
+
+</body>
+</html>

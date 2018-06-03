@@ -1,0 +1,50 @@
+﻿
+(Google Map Javascript API사용방법 및 API-key 생성방법 )
+---------------------------------------------------------
+
+  - https://developers.google.com/maps/documentation/javascript/tutorial?hl=ko
+      (Google Map Javascript API 사용방법)
+
+  - https://developers.google.com/maps/documentation/javascript/get-api-key?hl=ko
+      (Google Map Javascript API-key 생성방법1(영어버전))
+
+  - http://eyoom.net/bbs/board.php?bo_table=tip&wr_id=817&sst=wr_hit&sod=asc&sop=and&page=1
+      (Google Map Javascript API-key 생성방법2(한글버전1))
+
+  - http://guslabview.tistory.com/406
+      (Google Map Javascript API-key 생성방법3(한글버전2))
+
+
+
+(Google Places JavaScript 라이브러리 및 장소유형)
+-------------------------------------------------
+
+  - https://developers.google.com/maps/documentation/javascript/places?hl=ko
+      (Google Places JavaScript 라이브러리 함수)
+
+  - https://developers.google.com/places/supported_types?hl=ko  (types 장소유형)
+
+
+
+
+(XY좌표 -> 위경도좌표 변환,  두점간 거리계산....)
+---------------------------------------------------
+
+  - http://windingroad.tistory.com/26?category=218236
+
+  - http://windingroad.tistory.com/27?category=218236
+
+
+
+(국가공공데이터 획득방법)
+-------------------------
+예를 들어 서울시 건물정보를 구차고자 할 때 다음 공공데이터사이트에서 다운로드함.
+
+  - http://www.juso.go.kr/addrlink/addressBuildDevNew.do?menu=rdnm
+		   -->>  "build_seoul.txt"  (서울시건물정보)
+		   -->>  "[레이아웃] 건물DB(구 전체주소).pdf" (건물DB스키마)
+                   -->>  "entrc_seoul_filter_sorted_utf8.txt" 
+                                  (미사용컬럼제거, 순서정렬 및 UTF8포맷변경)
+
+
+

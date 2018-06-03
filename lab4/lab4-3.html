@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab4-3</title>
+</head>
+<body>
+        <h2>Video Player</h2>
+
+        <span>영상선택 : <span id="sel" for="file"> </span> </span> <br>
+
+        <input type="file" name="file" id="file" value="file" onchange="alert(this.files[0].name + '이(가) 선택되었습니다.'); document.getElementById('sel').innerHTML = this.files[0].name; document.getElementById('vd').src=this.files[0].name;"/>
+
+        <input type="button" value="영상보기" onclick="document.getElementById('vd').play(); document.getElementById('vd').hidden = false;"/>
+
+        <input type="button" value="영상중단" onclick="document.getElementById('vd').pause(); document.getElementById('vd').hidden = true;"/><br>
+
+        <video width="960" controls="controls" id="vd" src="Wildlife.mp4" hidden></video><br>
+</body>
+</html>

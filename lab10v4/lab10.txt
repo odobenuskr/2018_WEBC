@@ -1,0 +1,138 @@
+﻿
+--------------------
+(lab10) (200점) 설명
+--------------------
+
+
+(버전1) 건물DB-네이버맵-구글맵 연동
+-----------------------------------
+1. "build_seoul_utf8.txt"로부터 "build_seoul_filter2_utf8.txt",
+   "build_seoul_filter2_sorted_utf8.txt"을 생성한다.
+     - "[가이드]건물DB_도로명주소_활용방법(전체자료,변동자료).pdf"
+                                     --> 빌딩DB파일: 1번타입 포맷으로 생성됨
+     - http://www.juso.go.kr/addrlink/addressBuildDevNew.do?menu=rdnm
+                                     --> 빌딩DB파일 다운로드 사이트
+
+2. Postman을 설치한 후, 네이버맵서비스에 가입하여 계정(Client ID, Client Secret )을
+   만든 후, 네이버맵서비스 REST API 호출연습을 한다.
+
+    (네이버맵서비스 관련링크)
+      - https://developers.naver.com/docs/map/overview/
+      - https://developers.naver.com/apps/#/myapps/gjnuwKXEDEiZG9wX931d/config
+
+    (Postman 관련링크)
+      - https://www.getpostman.com/  (설치)
+      - chrome://apps/  (설치 후 실행)
+      - http://jeongchul.tistory.com/302 (REST API 원리)
+      - http://meetup.toast.com/posts/107 (사용법)
+
+    (네이버맵서비스 REST API 예)
+      GET https://openapi.naver.com/v1/map/geocode?encoding=utf-8&coordType=latlng&query=%EC%97%B0%EC%82%AC%EB%A6%AC+93
+      Host: openapi.naver.com
+      User-Agent: curl/7.43.0
+      Accept: */*
+      Content-Type: application/json
+      X-Naver-Client-Id: gjnuwKXEDEiZG9wX931d
+      X-Naver-Client-Secret: Su6biRmItM
+
+
+3. 다음 조건을 만족하도록 "lab10.html"을 완성한다.
+    (1) "build_seoul_filter2_sorted_utf8.txt"을 javascript배열 building[]
+        으로 읽어들인다.
+    (2) 서울시 건물이름 입력창을 만든다.
+    (3) 건물이름을 입력하고 버튼을 누르면,
+         1) building[]에서 해당건물주소를 찾는다.
+         2) 네이버 맵서비스(REST API)에 접속하여 해당건물주소를 요청메시지에
+            추가하여 JSON포맷의 응답메시지에 있는 좌표(경도,위도)값을 읽는다.
+         3) 구글맵 PlacesService서비스에 접속하여 위의 좌표값을 지도의 중심위치로
+            설정한 후, 지도를 그린다.
+         4) 현재 위치를 중심으로 반경(range), 장소타입(예: 식당, 학교, 파출소,
+            은행, 주유소, 병원, 약국 등), 장소이름(예: 파리바게트)을 입력하고
+            버튼을 누르면 해당 장소들이 표시되도록 한다.
+
+
+----------------------------------
+(버전2) 위치정보요약DB-구글맵 연동
+----------------------------------
+1. 다음 사이트에서 위치정보요약DB압축파일(2018년3월분)과 사용설명문서(위치정보요약DB.pdf)를 
+   다운받아 위치정보요약DB압축파일 안에 있는 서울시건물DB인 "entrc_seoul.txt"을 노트패드를 
+   사용하여 utf8포맷으로 변환하여 "entrc_seoul_utf8.txt"에 저장하고, 이어서 미없는 건물이름을
+   가진 레코드들은 제거하여 "entrc_seoul_filter_utf8.txt"에 저장하고, 건물이름으로 정렬한
+   "entrc_seoul_filter_sorted_utf8.txt"을 생성한다.
+
+    - http://www.juso.go.kr/addrlink/addressBuildDevNew.do?menu=geodata
+                    --> 위치정보요약압축DB파일 다운로드 사이트
+    - "[레이아웃]위치정보요약DB.pdf"
+                    --> 위치정보요약DB파일: 1번타입 포맷으로 생성됨
+
+
+2. 다음 조건을 만족하도록 "lab10.html"을 완성한다.
+    (1) "entrc_seoul_filter_sorted_utf8.txt"을 javascript배열 building[]
+        으로 읽어들인다.
+    (2) 서울시 건물이름 입력창을 만든다.
+    (3) 건물이름을 입력하고 버튼을 누르면,
+          1) building[]에서 해당건물에 대한 XY좌표값을 읽는다.
+          2) proj4.js를 사용하여 XY좌표를 좌표(경도,위도)로 변환한다.
+              - http://windingroad.tistory.com/26
+              - http://windingroad.tistory.com/27
+          3) 구글맵 API키 발급 및 허용 API
+              (API키 발급절차)
+                  - https://www.utotheme.com/bbs/?t=1l
+                  - https://console.developers.google.com/apis/
+                  - http://guslabview.tistory.com/406
+              (API 허용설정리스트)
+                  Google Places API Web Service
+                  Google Maps JavaScript API
+                  Google Maps Geocoding API
+                  Google Maps Geolocation API
+                 (API키 예시) AIzaSyB4_bgoaMHiuSLNkwvbuGGa1bD60TZzXMQ
+          4) 구글맵 PlacesService서비스에 접속하여 위의 좌표값을 지도의 중심위치로
+              설정한 후, 지도를 그린다.
+          5) 현재 위치를 중심으로 반경(range), 장소타입(예: 식당, 학교, 파출소,
+              은행, 주유소, 병원, 약국 등), 장소이름(예: 파리바게트)을 입력하고
+              버튼을 누르면 해당 장소들이 표시되도록 한다.
+
+
+
+----------------------------------
+(버전3) 위치정보요약DB-구글맵 연동
+----------------------------------
+
+0. 가상대학에서 제공하는 "lab10.zip"를 다운받아 압축해제한 후, 폴더안으로 들어가 코멘드창을
+   띄워서 "node server_lab10.js"를 실행한다. 크롬브라우저를 실행하여 URL주소창에 
+   다음 주소를 입력한다.
+
+       - http://localhost:3020
+
+
+
+1. (50점) 다음사이트의 설명에 따라 구글맵 API-Key를 발급받아 구글맵검색URL에 설치하여 
+   제공프로그램(lab10.html)이 정상동작하도록 만들어라.
+
+  - https://developers.google.com/maps/documentation/javascript/tutorial?hl=ko
+      (Google Map Javascript API 사용방법)
+
+  - https://developers.google.com/maps/documentation/javascript/get-api-key?hl=ko
+      (Google Map Javascript API-key 생성방법1(영어버전))
+
+  - http://eyoom.net/bbs/board.php?bo_table=tip&wr_id=817&sst=wr_hit&sod=asc&sop=and&page=1
+      (Google Map Javascript API-key 생성방법2(한글버전1))
+
+  - http://guslabview.tistory.com/406
+      (Google Map Javascript API-key 생성방법3(한글버전2))
+
+
+
+2. (50점) 다음 사이트에서 구글플레이스API에서 제공하는 장소유형을 "lab10.html"에 20개 더 추가하여
+   정상동작하도록 한다.
+
+    - https://developers.google.com/places/supported_types?hl=ko  (types: 장소유형)
+
+
+
+3. (100점) "entrc_seoul_filter_sorted_utf8.txt" 문서를 편집기에서 열고 건물이름으로 검색하면
+   복수개의 동일 건물들이 떠오른다. 예를 들어 "국민대학교"를 입력하면 세군데의 정보가
+   검색된다. 이렇게 검색된 모든 장소들을 맵에 마크업(마크, 장소명, 좌표값)하고,
+   표시된 모든 위치들이 항상 현재 화면에 보이도록 zoom값을 계산/설정하는 알고리즘을 
+   설계/구현하라.
+

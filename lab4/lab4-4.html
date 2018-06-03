@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab4-4</title>
+    <style>
+        /* body 태그를 중앙 정렬합니다. */
+        body {
+            width: 960px;
+            margin: 0 auto;
+          }
+        #header {
+          width: 940px;
+          border: 1px solid black;
+          margin:2px;
+        }
+        #navigation1 {
+          position: relative;
+          left: 700px;
+          top: -20px;
+          width: 200px;
+          border: 1px solid black;
+          margin:2px;
+          height: 50px;
+          text-align: center;
+        }
+
+        #navigation2 {
+          width: 935px;
+          border: 1px solid black;
+          margin:2px;
+          height: 35px;
+          text-align: center;
+        }
+        #aside {
+            width: 200px;
+            height: 300px;
+            float: left;
+            margin:2px;
+            border: 1px solid black;
+        }
+        #aside2 {
+            width: 200px;
+            height: 300px;
+            float: right;
+            margin:2px;
+            border: 1px solid black;
+        }
+        #section {
+            width: 530px;
+            height: 300px;
+            float: left;
+            margin:2px;
+            border: 1px solid black;
+        }
+        #wrap {
+          overflow: hidden;
+        }
+        #footer {
+          width: 940px;
+          border: 1px solid black;
+          margin:2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header"><h1>Header</h1>
+      <div id="navigation1"><p>Navigation1</p></div>
+
+      <div id="navigation2">
+        <p>Navigation2</p>
+      </div>
+</div>
+    <div id="wrap">
+        <div id="aside">
+            <h1>Aside</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div id="section">
+            <h1>Section</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div id="aside">
+            <h1>Aside2</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+    <div id="footer"><h1>Footer</h1></div>
+</body>
+</html>
