@@ -53,6 +53,8 @@ function setCoord(resultArray) {
   address_long = resultArray[0];
   address_lat = resultArray[1];
   baseGeo = new google.maps.LatLng(address_lat, address_long);
+  geolocate = new google.maps.LatLng(address_lat, address_long);
+
   map.setCenter(baseGeo);
 
   var myOptions = { // default map options
@@ -61,14 +63,9 @@ function setCoord(resultArray) {
       mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-    address_long = resultArray[0];
-    address_lat = resultArray[1];
-    geolocate = new google.maps.LatLng(address_lat, address_long);
-
-    map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
-
-    document.getElementById('lat').value = address_lat;
-    document.getElementById('lng').value = address_long;
+  document.getElementById('lat').value = address_lat;
+  document.getElementById('lng').value = address_long;
+  map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
 
   for (var i = 0; i < resultArray.length; i++) {
     address_long = resultArray[i];
@@ -82,21 +79,13 @@ function setCoord(resultArray) {
         title: address_name + ', ' + address_lat + ', ' + address_long,
         icon: 'marker.png'
     });
-
     bounds.extend(geolocate);
-
     document.getElementById('lat').value = address_lat;
     document.getElementById('lng').value = address_long;
   }
   map.fitBounds(bounds);
-
   var zoom = map.getZoom();
   map.setZoom(zoom > 18 ? 18 : zoom);
-
-  // var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-  //   this.setZoom(18);
-  //   google.maps.event.removeListener(boundsListener);
-  // });
 }
 
 // find address function
